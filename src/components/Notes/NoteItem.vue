@@ -1,5 +1,9 @@
 <script setup lang="ts">
-import { RouterLink } from 'vue-router'
+import { RouterLink, useRouter } from 'vue-router'
+import { useNotesStore } from '@/stores/Notes'
+
+const router = useRouter()
+const notesStore = useNotesStore()
 
 const props = defineProps({
     isNewNote: {
@@ -12,10 +16,15 @@ const props = defineProps({
     }
 })
 
+const addNote = () => {
+    const note = notesStore.addNote({ title: 'Untitled', content: 'This is a new note' })
+    router.push(`/note/${note.id}`)
+}
+
 </script>
 
 <template>
-    <div v-if="isNewNote"
+    <div v-if="isNewNote" @click="addNote"
         class="p-2 flex items-center justify-center border-2 border-dashed rounded-lg w-[250px] h-[300px] text-muted-foreground font-medium hover:border-primary/50 hover:text-primary cursor-pointer capitalize">
         + New Note
     </div>
