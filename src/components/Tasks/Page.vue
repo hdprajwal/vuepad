@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted } from 'vue'
 import { useTaskStore } from '@/stores/Task'
+import PageHeader from '@/components/ui/PageHeader.vue'
 import type { Task } from '@/stores/Task'
 
 import AddTask from './AddTask.vue'
@@ -39,7 +40,8 @@ onMounted(() => {
 
 <template>
     <div class="w-full">
-        <div class="flex flex-col gap-2">
+        <PageHeader title="Tasks" />
+        <div class="flex flex-col gap-2 max-w-4xl mx-auto">
             <AddTask @taskAdded="addTask" />
             <div v-if="activeTasks.length === 0" class="text-center">
                 No active tasks

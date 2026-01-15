@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-import { ListCheck, Sun, Moon } from 'lucide-vue-next'
+import { ListCheck, Notebook, Sun, Moon } from 'lucide-vue-next'
 import { useTheme } from './composables/useTheme'
 
 const { theme, toggleTheme } = useTheme();
@@ -24,6 +24,14 @@ const { theme, toggleTheme } = useTheme();
                 <span class="text-sm font-medium">Tasks</span>
               </RouterLink>
             </li>
+            <li>
+              <RouterLink to="/notes"
+                class="flex items-center gap-2 p-2 rounded-md bg-secondary text-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
+                active-class="bg-accent text-accent-foreground">
+                <Notebook class="h-4 w-4" />
+                <span class="text-sm font-medium">Notes</span>
+              </RouterLink>
+            </li>
           </ul>
         </nav>
       </div>
@@ -34,7 +42,7 @@ const { theme, toggleTheme } = useTheme();
       </button>
     </aside>
     <main class="flex-1 overflow-y-auto p-6">
-      <div class="max-w-4xl mx-auto">
+      <div class="">
         <section class="w-full">
           <RouterView />
         </section>
