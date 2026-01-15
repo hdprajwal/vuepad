@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { ref, computed } from 'vue'
+import { computed } from 'vue'
 
-import type { Task } from './types'
+import { useTaskStore, type Task } from '@/stores/Task'
 
 import AddTask from './AddTask.vue'
 import TaskItem from './TaskItem.vue'
 
-const tasks = ref<Task[]>([])
+const taskStore = useTaskStore()
 
 const addTask = (taskTitle: string) => {
-    tasks.value.push({
+    taskStore.addTask({
         id: Date.now(),
         title: taskTitle,
         completed: false,
@@ -19,22 +19,17 @@ const addTask = (taskTitle: string) => {
 }
 
 const deleteTask = (id: number) => {
-    tasks.value = tasks.value.filter((task) => task.id !== id)
+    taskStore.deleteTask(id)
 }
 
 
 
 const toogleTask = (id: number) => {
-    tasks.value = tasks.value.map((task) => {
-        if (task.id === id) {
-            task.completed = !task.completed
-        }
-        return task
-    })
+    taskStore.toogleTask(id)
 }
 
-const activeTasks = computed(() => tasks.value.filter((task) => !task.completed))
-const completedTasks = computed(() => tasks.value.filter((task) => task.completed))
+const activeTasks = computed(() => taskStore.tasks.filter((task) => !task.completed))
+const completedTasks = computed(() => taskStore.tasks.filter((task) => task.completed))
 
 
 </script>
