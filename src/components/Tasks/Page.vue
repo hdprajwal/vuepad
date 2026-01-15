@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { computed } from 'vue'
-
-import { useTaskStore, type Task } from '@/stores/Task'
+import { computed, onMounted } from 'vue'
+import { useTaskStore } from '@/stores/Task'
+import type { Task } from '@/stores/Task'
 
 import AddTask from './AddTask.vue'
 import TaskItem from './TaskItem.vue'
@@ -31,6 +31,9 @@ const toogleTask = (id: number) => {
 const activeTasks = computed(() => taskStore.tasks.filter((task) => !task.completed))
 const completedTasks = computed(() => taskStore.tasks.filter((task) => task.completed))
 
+onMounted(() => {
+    taskStore.fetchTasks()
+})
 
 </script>
 

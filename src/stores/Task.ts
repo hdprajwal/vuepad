@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
 
 export interface Task {
     id: number;
@@ -9,28 +8,27 @@ export interface Task {
     updatedAt: Date;
 }   
 
-
-export const useTaskStore = defineStore('tasks',()=>{
-    const tasks = ref<Task[]>([])
-
-    function addTask(task: Task) {
-        tasks.value.push(task)
-    }
-
-    function deleteTask(id: number) {
-        tasks.value = tasks.value.filter((task) => task.id !== id)
-    }
-
-    function toogleTask(id: number) {
-        tasks.value = tasks.value.map((task) =>
-            task.id === id ? { ...task, completed: !task.completed } : task
-        )
-    }
-
-    return {
-        tasks,
-        addTask,
-        deleteTask,
-        toogleTask
-    }
+export const useTaskStore = defineStore('tasks',{
+    state: () => ({
+        tasks: [] as Task[],
+    }),
+    actions: {
+        async fetchTasks() {
+            this.tasks = await this.db.tasks.toArray()
+        },
+        addTask(task: Task) {
+            this.tasks.push(task)
+            this.db.tasks.add(task)
+        },
+        deleteTask(id: number) {
+            this.tasks = this.tasks.filter((task) => task.id !== id)
+            this.db.tasks.delete(id)
+        },
+        toogleTask(id: number) {
+            const task = this.tasks.find((task) => task.id === id)
+            if (!task) return
+            task.completed = !task.completed
+            this.db.tasks.update(id, { completed: task.completed })
+        },
+    },
 })
