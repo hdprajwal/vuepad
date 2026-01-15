@@ -8,9 +8,9 @@
 - [x] **Styling**: Use Tailwind CSS for modern UI development.
 - [x] **Icons**: Use Lucide Vue Next icons.
 - [x] **Deployment**: Setup automatic deployment using Vercel.
-- [ ] **Notes**: Add the ability to create and organize rich-text notes with persistent storage.
-- [ ] **UI/UX Refinement**: Make the UI look better, and responsive.
-- [ ] **Transitions & Animations**: Add smooth entry/exit animations for tasks using `<TransitionGroup>`.
 - [ ] **Custom Composables**: Extract complex logic into reusable composables (e.g., `theme`, `filtering`).
+- [ ] **UI/UX Refinement**: Make the UI look better, and responsive.
+- [ ] **Notes**: Add the ability to create and organize rich-text notes with persistent storage.
+- [ ] **Transitions & Animations**: Add smooth entry/exit animations for tasks using `<TransitionGroup>`.
 - [ ] **Modals & Teleport**: Implement modals for task editing or confirmation using `<Teleport>`.
 - [ ] **Advanced Routing**: Add dynamic routes for individual notes.

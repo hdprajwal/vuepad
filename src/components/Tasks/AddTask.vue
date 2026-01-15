@@ -14,14 +14,15 @@ const addTask = () => {
 </script>
 
 <template>
-    <div class="">
-        <form @submit.prevent="addTask" class="flex items-center justify-between gap-2">
+    <div class="mb-4">
+        <form @submit.prevent="addTask" class="flex items-center gap-2">
             <input v-model="newTask" type="text"
-                class="bg-neutral-secondary-medium border border-default-medium text-heading text-sm rounded focus:ring-brand focus:border-brand block flex-1 px-2.5 py-2 shadow-xs placeholder:text-body"
-                placeholder="Add a new task" />
+                class="flex h-9 w-full rounded border border-input bg-transparent px-3 py-1 text-sm transition-colors file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:cursor-not-allowed disabled:opacity-50"
+                placeholder="Add a new task..." />
             <button type="submit"
-                class="text-white box-border border border-transparent bg-blue-500 hover:bg-blue-600 focus:ring-4 focus:ring-brand-medium shadow-xs font-medium leading-5 rounded text-sm px-2.5 py-2 focus:outline-none">
-                + Add Task</button>
+                class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground h-9 px-3 py-1">
+                Add Task
+            </button>
         </form>
     </div>
 </template>
