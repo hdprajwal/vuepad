@@ -3,15 +3,17 @@
 A demo app built to fiddle around with and learn **Vue 3**.
 
 ## Overview
-This is a playground project focused on exploring Vue's core concepts, composition API.
+This is a playground project focused on exploring Vue's core concepts, composition API, and state management with persistent storage.
 
 ## Current Features
 - **Task Management**: Create and manage your daily tasks.
-- **State Handling**: Currently uses component-level state (no external store like Pinia/Vuex yet).
-- **Modern Stack**: Built with Vue 3, Vite, and Tailwind CSS.
+- **State Management**: Uses **Pinia** for state management across components.
+- **Local Persistence**: Full browser storage support using **Dexie.js** (IndexedDB) via a custom Pinia plugin.
 
 ## Tech Stack
 - **Framework:** [Vue 3](https://vuejs.org/) (Composition API)
+- **State Management:** [Pinia](https://pinia.vuejs.org/)
+- **Database (Local):** [Dexie.js](https://dexie.org/) (IndexedDB wrapper)
 - **Build Tool:** [Vite](https://vitejs.dev/)
 - **Styling:** [Tailwind CSS](https://tailwindcss.com/)
 - **Icons:** [Lucide Vue Next](https://lucide.dev/guide/packages/lucide-vue-next)
@@ -20,15 +22,15 @@ This is a playground project focused on exploring Vue's core concepts, compositi
 ## Project Structure
 ```text
 src/
-├── components/
-│   └── Tasks/        # All task-related logic
-│       ├── AddTask.vue
-│       ├── Page.vue
-│       ├── TaskItem.vue
-│       └── types.ts  # Shared TypeScript interfaces
-├── views/            # Route pages
+├── components/       # UI Components (Tasks, etc.)
+├── router/           # Vue Router configuration
+├── stores/           # Pinia state stores
+├── plugins/          # Pinia plugins (Dexie integration)
+├── types/            # TypeScript type definitions & augmentations
+├── views/            # Main page views
+├── db.ts             # Dexie database configuration
 ├── App.vue           # Main Entry
-└── main.ts
+└── main.ts           # App initialization
 ```
 
 ## Project Setup
@@ -48,6 +50,4 @@ pnpm lint
 ```
 
 ## TODO
-- [ ] **Notes**: Add the ability to create and organize rich-text notes.
-- [ ] **Local Persistence**: Full browser storage support using **Dexie DB** (IndexedDB).
-- [ ] **State Management**: Explore global state patterns.
+Check out the [TODO.md](./TODO.md) file for the TODO list and progress.
