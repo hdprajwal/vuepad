@@ -1,17 +1,21 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import type { Task } from './types'
 import { Trash } from 'lucide-vue-next'
 
 const props = defineProps<{ task: Task }>();
 
 const emit = defineEmits<{ (e: 'taskToggled', id: number): void, (e: 'taskDeleted', id: number): void }>();
+
+const completed = computed(() => props.task.completed)
+
 </script>
 
 <template>
-    <div class="flex items-center justify-between gap-2 p-2 border rounded">
+    <div
+        :class="['flex items-center justify-between gap-2 p-2 border rounded', completed ? 'line-through text-gray-500' : '']">
         <div class="flex items-center gap-2">
-            <input class="w-4 h-4" type="checkbox" :checked="props.task.completed"
-                @change="emit('taskToggled', props.task.id)" />
+            <input class="w-4 h-4" type="checkbox" :checked="completed" @change="emit('taskToggled', props.task.id)" />
             <span>{{ props.task.title }}</span>
         </div>
         <div>
