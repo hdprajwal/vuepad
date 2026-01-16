@@ -128,13 +128,6 @@
     @apply my-6 ml-6 list-decimal [&>li]:mt-2;
   }
 
-  ul[data-type="ordered"] {
-      @apply list-decimal;
-  }
-
-  ul[data-type="bullet"] {
-      @apply list-disc;
-  }
 
   ul[data-type="taskList"] {
     @apply list-none ml-0;

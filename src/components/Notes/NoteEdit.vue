@@ -15,6 +15,7 @@ const notesStore = useNotesStore()
 
 const note = ref()
 const noteContent = ref("")
+const noteTitle = ref("")
 
 const isInitialLoad = ref(true)
 const isSaving = ref(false)
@@ -24,6 +25,7 @@ onMounted(async () => {
     if (fetchedNote) {
         note.value = fetchedNote
         noteContent.value = fetchedNote.content
+        noteTitle.value = fetchedNote.title
     }
 
     window.addEventListener('beforeunload', handleBeforeUnload)
@@ -44,6 +46,19 @@ const saveNote = async () => {
     }
 }
 
+const updateNoteTitle = async () => {
+    if (note.value && !isSaving.value) {
+        isSaving.value = true
+        try {
+            await notesStore.updateNoteTitle(note.value.id, noteTitle.value)
+        } finally {
+            isSaving.value = false
+        }
+    }
+}
+
+const debouncedUpdateNoteTitle = debounce(updateNoteTitle, 1000)
+
 const debouncedSaveNote = debounce(saveNote, 1000)
 
 watch(() => noteContent.value, (newContent, oldContent) => {
@@ -52,7 +67,15 @@ watch(() => noteContent.value, (newContent, oldContent) => {
     }
 })
 
+watch(() => noteTitle.value, (newTitle, oldTitle) => {
+    if (!isInitialLoad.value && oldTitle !== undefined && newTitle !== oldTitle) {
+        debouncedUpdateNoteTitle()
+    }
+})
+
+
 const handleBeforeUnload = () => {
+    updateNoteTitle()
     saveNote()
 }
 
@@ -60,6 +83,8 @@ onUnmounted(() => {
     window.removeEventListener('beforeunload', handleBeforeUnload)
     debouncedSaveNote.cancel()
     saveNote()
+    debouncedUpdateNoteTitle.cancel()
+    updateNoteTitle()
 })
 
 
@@ -73,7 +98,10 @@ onUnmounted(() => {
             </RouterLink>
         </div>
         <div v-if="note">
-            <h1 class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl mb-4">{{ note.title }}</h1>
+            <h1 class="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl mb-4">
+                <input v-model="noteTitle" type="text"
+                    class="text-4xl font-extrabold tracking-tight lg:text-5xl outline-none" />
+            </h1>
             <TipTapEditor v-model="noteContent" :editable="true" />
         </div>
     </div>

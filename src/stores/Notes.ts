@@ -43,12 +43,14 @@ export const useNotesStore = defineStore('notes',{
         async updateNoteTitle(id: string, title: string) {
             const note = this.notes.find((note) => note.id === id)
 
-            if (!note) return
+            if (!note || note.title === title) return
 
-            note.title = title
+            note.title = title  
+            note.updatedAt = new Date()
 
             try {
-                await db.notes.update(id, { title })
+                console.log("Updating note title in DB...")
+                await db.notes.update(id, { title, updatedAt: note.updatedAt })
             } catch (error) {
                 console.error('Failed to update note title in DB:', error)
             }
