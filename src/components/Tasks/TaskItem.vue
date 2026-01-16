@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { Trash } from 'lucide-vue-next'
-import { type Task } from '@/stores/Task'
+import { type Task } from '@/db'
 
 const props = defineProps<{ task: Task }>();
 

@@ -105,3 +105,98 @@
     @apply bg-background text-foreground;
   }
 }
+
+
+.tiptap {
+  @apply leading-7 py-4;
+
+  :first-child {
+    @apply mt-0;
+  }
+
+  /* Paragraph styles */
+  p {
+    @apply [&:not(:first-child)]:mt-2;
+  }
+
+  /* List styles */
+  ul {
+    @apply my-6 ml-6 list-disc [&>li]:mt-2;
+  }
+
+  ol {
+    @apply my-6 ml-6 list-decimal [&>li]:mt-2;
+  }
+
+  ul[data-type="ordered"] {
+      @apply list-decimal;
+  }
+
+  ul[data-type="bullet"] {
+      @apply list-disc;
+  }
+
+  ul[data-type="taskList"] {
+    @apply list-none ml-0;
+    li {
+      @apply flex gap-2;
+      input[type="checkbox"] {
+        @apply accent-primary;
+      }
+    }
+}
+
+  /* Heading styles */
+  h1 {
+    @apply scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl;
+  }
+
+  h2 {
+    @apply scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0;
+  }
+
+  h3 {
+    @apply scroll-m-20 text-2xl font-semibold tracking-tight mt-2 mb-2;
+  }
+
+  h4 {
+    @apply scroll-m-20 text-xl font-semibold tracking-tight mt-2 mb-2;
+  }
+
+  /* Code and preformatted text styles */
+  code {
+    @apply relative rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm font-semibold;
+  }
+
+  pre {
+    @apply mb-4 mt-6 overflow-x-auto rounded-lg bg-primary py-4 px-4 text-primary-foreground font-mono text-sm;
+
+    code {
+      @apply bg-transparent p-0 text-inherit font-normal;
+    }
+  }
+
+  blockquote {
+    @apply mt-6 border-l-2 pl-6 italic text-muted-foreground;
+  }
+
+  hr {
+    @apply my-4 md:my-8 border-border;
+  }
+
+  /* Link styles (common in Tiptap) */
+  a {
+    @apply font-medium underline underline-offset-4 text-primary;
+  }
+
+
+    p.is-editor-empty:first-child::before {
+      @apply text-muted-foreground text-sm font-normal float-left;
+    content: attr(data-placeholder);
+    height: 0;
+    pointer-events: none;
+  }
+
+  
+  @apply outline-none;
+}

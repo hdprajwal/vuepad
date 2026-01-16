@@ -2,7 +2,6 @@
 import { computed, onMounted } from 'vue'
 import { useTaskStore } from '@/stores/Task'
 import PageHeader from '@/components/ui/PageHeader.vue'
-import type { Task } from '@/stores/Task'
 
 import AddTask from './AddTask.vue'
 import TaskItem from './TaskItem.vue'

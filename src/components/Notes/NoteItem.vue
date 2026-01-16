@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { RouterLink, useRouter } from 'vue-router'
 import { useNotesStore } from '@/stores/Notes'
+import TipTapEditor from '@/components/ui/TipTapEditor.vue'
 
 const router = useRouter()
 const notesStore = useNotesStore()
@@ -16,8 +17,8 @@ const props = defineProps({
     }
 })
 
-const addNote = () => {
-    const note = notesStore.addNote({ title: 'Untitled', content: 'This is a new note' })
+const addNote = async () => {
+    const note = await notesStore.addNote({ title: 'Untitled', content: '' })
     router.push(`/note/${note.id}`)
 }
 
@@ -36,13 +37,13 @@ const addNote = () => {
             </h1>
 
             <div class="space-y-4 text-xs text-muted-foreground/80 leading-relaxed">
-                <p v-if="note.content">
-                    {{ note.content }}
+                <p v-if="note.content" class="">
+                    <TipTapEditor :modelValue="note.content" :editable="false" />
                 </p>
             </div>
 
             <div
-                class="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-card via-card/80 to-transparent pointer-events-none">
+                class="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-card via-card/20 to-transparent pointer-events-none">
             </div>
         </div>
     </RouterLink>
