@@ -134,7 +134,7 @@
     li {
       @apply flex gap-2;
       input[type="checkbox"] {
-        @apply accent-primary;
+        @apply accent-secondary;
       }
     }
 }
