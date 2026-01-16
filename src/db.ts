@@ -22,7 +22,7 @@ class VuePadDatabase extends Dexie {
 
     constructor() {
         super('vuepad');
-        this.version(2).stores({
+        this.version(1).stores({
             tasks: 'id, title, completed, createdAt, updatedAt',
             notes: 'id, title, createdAt, updatedAt'
         });
