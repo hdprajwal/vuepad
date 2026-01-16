@@ -1,13 +1,7 @@
 import { defineStore } from 'pinia'
 import { nanoid } from 'nanoid'
+import { db, type Note } from '@/db'
 
-export interface Note {
-    id: string;
-    title: string;
-    content: string;
-    createdAt: Date;
-    updatedAt: Date;
-}   
 
 export const useNotesStore = defineStore('notes',{
     state: () => ({
@@ -15,36 +9,75 @@ export const useNotesStore = defineStore('notes',{
     }),
     actions: {
         async fetchNotes() {
-            this.notes = await this.db.notes.toArray()
+            this.notes = await db.notes.toArray()
         },
         async getNoteById(id: string){
-            const tmp_note = this.notes.find((note) => note.id === id)
-            console.log(tmp_note)
-            if (!tmp_note) return null
-            return tmp_note
+            let note = this.notes.find((n) => n.id === id)
+
+            if (!note) {
+                try {
+                    note = await db.notes.get(id)
+                    if (note) {
+                        this.notes.push(note)
+                    }
+                } catch (error) {
+                    console.error('Failed to get note from DB:', error)
+                }
+            }
+            
+            return note || null
         },
-        addNote({title,content}:{title:string,content:string}) {
+        async addNote({title,content}:{title:string,content:string}) {
             const note = {id:nanoid(8),title,content,createdAt:new Date(),updatedAt:new Date()}
+            
             this.notes.push(note)
-            this.db.notes.add(note)
-            console.log(note)
+            
+            try {
+                await db.notes.add(note)
+            } catch (error) {
+                console.error('Failed to add note to DB:', error)
+            }
+
             return note
         },
-        updateNoteTitle(id: string, title: string) {
+        async updateNoteTitle(id: string, title: string) {
             const note = this.notes.find((note) => note.id === id)
+
             if (!note) return
+
             note.title = title
-            this.db.notes.update(id, { title })
+
+            try {
+                await db.notes.update(id, { title })
+            } catch (error) {
+                console.error('Failed to update note title in DB:', error)
+            }
         },
-        updateNoteContent(id: string, content: string) {
-            const note = this.notes.find((note) => note.id === id)
-            if (!note) return
+        async updateNoteContent(id: string, content: string) {
+            const note = this.notes.find((n) => n.id === id)
+
+            if (!note || note.content === content) return
+
             note.content = content
-            this.db.notes.update(id, { content })
+            note.updatedAt = new Date()
+
+            try {
+                await db.notes.update(id, { 
+                    content, 
+                    updatedAt: note.updatedAt 
+                })
+            } catch (error) {
+                console.error('Dexie Update Error:', error)
+            }
         },
-        deleteNote(id: string) {
+        async deleteNote(id: string) {
             this.notes = this.notes.filter((note) => note.id !== id)
-            this.db.notes.delete(id)
+
+            try {
+                await db.notes.delete(id)
+            } catch (error) {
+                console.error('Failed to delete note from DB:', error)
+            }
         },
     },
 })

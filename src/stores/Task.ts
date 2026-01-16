@@ -1,12 +1,5 @@
 import { defineStore } from 'pinia'
-
-export interface Task {
-    id: number;
-    title: string;
-    completed: boolean;
-    createdAt: Date;
-    updatedAt: Date;
-}   
+import { db, type Task } from '@/db'
 
 export const useTaskStore = defineStore('tasks',{
     state: () => ({
@@ -14,21 +7,38 @@ export const useTaskStore = defineStore('tasks',{
     }),
     actions: {
         async fetchTasks() {
-            this.tasks = await this.db.tasks.toArray()
+            this.tasks = await db.tasks.toArray()
         },
-        addTask(task: Task) {
+        async addTask(task: Task) {
             this.tasks.push(task)
-            this.db.tasks.add(task)
+
+            try {
+                await db.tasks.add(task)
+            } catch (error) {
+                console.error('Failed to add task to DB:', error)
+            }
         },
-        deleteTask(id: number) {
+        async deleteTask(id: number) {
             this.tasks = this.tasks.filter((task) => task.id !== id)
-            this.db.tasks.delete(id)
+
+            try {
+                await db.tasks.delete(id)
+            } catch (error) {
+                console.error('Failed to delete task from DB:', error)
+            }
         },
-        toogleTask(id: number) {
+        async toogleTask(id: number) {
             const task = this.tasks.find((task) => task.id === id)
+
             if (!task) return
+
             task.completed = !task.completed
-            this.db.tasks.update(id, { completed: task.completed })
+
+            try {
+                await db.tasks.update(id, { completed: task.completed })
+            } catch (error) {
+                console.error('Failed to toggle task in DB:', error)
+            }
         },
     },
 })
